@@ -251,7 +251,12 @@
 	static dispatch_once_t onceToken;
 	static NSBundle *resourcesBundle = nil;
 	dispatch_once(&onceToken, ^{
-		NSURL *url = [[NSBundle bundleForClass:[SAMKeychainQuery class]] URLForResource:@"SAMKeychain" withExtension:@"bundle"];
+		NSURL *url;
+#if SWIFT_PACKAGE
+		url = [SWIFTPM_MODULE_BUNDLE URLForResource:@"SAMKeychain" withExtension:@"bundle"];
+#else
+		url = [[NSBundle bundleForClass:[SAMKeychainQuery class]] URLForResource:@"SAMKeychain" withExtension:@"bundle"];
+#endif
 		resourcesBundle = [NSBundle bundleWithURL:url];
 	});
 	
